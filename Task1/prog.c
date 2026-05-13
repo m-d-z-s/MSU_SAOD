@@ -173,3 +173,157 @@ void remove_list(struct Node **p)
     free(sentinel);
     *p = NULL;
 }
+
+/* ── Insertion Sort ──────────────────────────────────────────────────────────
+ * Перебираем узлы начиная со второго.  Для каждого узла ищем позицию вставки
+ * в уже отсортированной части и переставляем указатели (не копируем данные).
+ * Структура списка (sentinel в конце) сохраняется.
+ * ─────────────────────────────────────────────────────────────────────────── */
+void insertion_sort(struct Node **p, struct SortMetrics *m)
+{
+    struct Node *sentinel = get_sentinel(*p);
+    struct Node *sorted_end; /* последний узел отсортированной части        */
+    struct Node *cur;        /* текущий узел для вставки                    */
+    struct Node *prev_cur;   /* узел перед cur в исходном списке            */
+    struct Node *ins;        /* узел, перед которым вставляем cur           */
+    struct Node *prev_ins;   /* узел перед ins                              */
+
+    m->comparisons   = 0;
+    m->pointer_swaps = 0;
+
+    /* Список пуст или из одного элемента */
+    if (*p == sentinel || (*p)->next == sentinel)
+        return;
+
+    sorted_end = *p; /* первый узел уже «отсортирован» сам по себе */
+
+    while (sorted_end->next != sentinel) {
+        cur      = sorted_end->next; /* берём первый узел неотсортированной части */
+        prev_ins = NULL;
+        ins      = *p;
+
+        /* Ищем позицию вставки в отсортированной части */
+        while (ins != cur) {
+            m->comparisons++;
+            if (ins->data > cur->data)
+                break;
+            prev_ins = ins;
+            ins      = ins->next;
+        }
+
+        if (ins == cur) {
+            /* cur уже на своём месте — просто продвигаем границу */
+            sorted_end = cur;
+        } else {
+            /* Отцепляем cur от текущей позиции */
+            prev_cur = *p;
+            while (prev_cur->next != cur)
+                prev_cur = prev_cur->next;
+            prev_cur->next = cur->next;   m->pointer_swaps++;
+
+            /* Вставляем cur перед ins */
+            cur->next = ins;              m->pointer_swaps++;
+            if (prev_ins == NULL) {
+                *p = cur;                 m->pointer_swaps++;
+            } else {
+                prev_ins->next = cur;     m->pointer_swaps++;
+            }
+            /* sorted_end не сдвигаем: следующий за ним — всё тот же узел */
+        }
+    }
+}
+
+/* ── Merge Sort (вспомогательные функции) ───────────────────────────────── */
+
+/* Разрезаем список на две половины.
+ * slow/fast — классический алгоритм «черепаха и заяц».
+ * *front получает первую половину, *back — вторую.
+ * sentinel не передаётся: он останется в хвосте второй половины.          */
+static void split_list(struct Node *head, struct Node *sentinel,
+                       struct Node **front, struct Node **back)
+{
+    struct Node *slow = head;
+    struct Node *fast = head->next;
+
+    while (fast != sentinel && fast->next != sentinel) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    *front = head;
+    *back  = slow->next;
+    slow->next = sentinel; /* обрываем первую половину */
+}
+
+/* Слияние двух отсортированных подсписков.
+ * Оба заканчиваются одним и тем же sentinel.
+ * Возвращает голову объединённого списка.                                   */
+static struct Node* merge_lists(struct Node *a, struct Node *b,
+                                struct Node *sentinel,
+                                struct SortMetrics *m)
+{
+    struct Node dummy;   /* фиктивный узел-голова результата */
+    struct Node *tail = &dummy;
+    dummy.next = sentinel;
+
+    while (a != sentinel && b != sentinel) {
+        m->comparisons++;
+        if (a->data <= b->data) {
+            tail->next = a;  m->pointer_swaps++;
+            a = a->next;
+        } else {
+            tail->next = b;  m->pointer_swaps++;
+            b = b->next;
+        }
+        tail = tail->next;
+    }
+
+    /* Присоединяем остаток */
+    if (a != sentinel) {
+        tail->next = a;  m->pointer_swaps++;
+    } else {
+        tail->next = b;  m->pointer_swaps++;
+    }
+
+    /* Убеждаемся, что хвост объединённого списка упирается в sentinel */
+    tail = tail->next;
+    while (tail->next != sentinel)
+        tail = tail->next;
+    tail->next = sentinel;
+
+    return dummy.next;
+}
+
+/* Рекурсивное ядро merge sort.
+ * Принимает и возвращает голову подсписка; sentinel — общий для всех.       */
+static struct Node* merge_sort_recursive(struct Node *head,
+                                         struct Node *sentinel,
+                                         struct SortMetrics *m)
+{
+    struct Node *front;
+    struct Node *back;
+
+    if (head == sentinel || head->next == sentinel)
+        return head;
+
+    split_list(head, sentinel, &front, &back);
+
+    front = merge_sort_recursive(front, sentinel, m);
+    back  = merge_sort_recursive(back,  sentinel, m);
+
+    return merge_lists(front, back, sentinel, m);
+}
+
+/* ── Merge Sort (публичный интерфейс) ───────────────────────────────────── */
+void merge_sort(struct Node **p, struct SortMetrics *m)
+{
+    struct Node *sentinel = get_sentinel(*p);
+
+    m->comparisons   = 0;
+    m->pointer_swaps = 0;
+
+    if (*p == sentinel || (*p)->next == sentinel)
+        return;
+
+    *p = merge_sort_recursive(*p, sentinel, m);
+}
