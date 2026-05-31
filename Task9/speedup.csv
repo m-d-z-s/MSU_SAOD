@@ -1,0 +1,17 @@
+n_threads,approach,speedup,efficiency
+2,block,1.8991,0.9496
+2,channel_queue,1.9505,0.9752
+2,channel_atomic,1.9499,0.9750
+2,channel_chunked,1.8871,0.9435
+3,block,2.7446,0.9149
+3,channel_queue,2.7947,0.9316
+3,channel_atomic,2.7928,0.9309
+3,channel_chunked,2.8163,0.9388
+4,block,3.1281,0.7820
+4,channel_queue,3.5953,0.8988
+4,channel_atomic,3.5981,0.8995
+4,channel_chunked,3.4985,0.8746
+5,block,3.7153,0.7431
+5,channel_queue,4.2436,0.8487
+5,channel_atomic,4.2632,0.8526
+5,channel_chunked,3.8457,0.7691
