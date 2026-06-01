@@ -1,0 +1,15 @@
+# Hardware constants (Apple M1 Pro)
+hw_peak_flops_gflops,25.6
+hw_peak_mem_bw_gbs,68
+hw_peak_l2_bw_gbs,250
+hw_peak_l1_bw_gbs,800
+measured_mem_bw_gbs,inf
+
+# Benchmark parameters
+n_clients,500
+n_routes,20
+repeats,200
+
+# variant,time_sec,total_evals,arith_intensity_flop_byte,throughput_gflops,achieved_bw_gbs
+naive,0.283535,51796200,1.5625,13.701,8.76864
+optimized,0.183093,51796200,0.0833333,0.565791,6.78949
