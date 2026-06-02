@@ -2,11 +2,21 @@
 """
 plot_roofline.py — Cache-Aware Roofline plot for VRP delta evaluation.
 
+Both variants (AoS and SoA) perform identical mathematical work:
+  delta = dist(j,c) + dist(c,k) - dist(j,k)   with 3x sqrt per eval.
+
+The only difference is the memory layout:
+  NAIVE:     struct Client { double x, y; }   → Array of Structs (AoS)
+  OPTIMIZED: vector<double> xs, ys;           → Structure of Arrays (SoA)
+
+Because math is identical, both points have the SAME arithmetic intensity.
+The performance difference (GFLOP/s) reflects vectorisation efficiency.
+
 Reads results.csv produced by delta_eval_bench and draws:
   • Theoretical peak compute ridge (horizontal)
   • Measured + theoretical memory-bandwidth ceilings (diagonal)
   • L2 and L1 cache-bandwidth ceilings (diagonal, lighter)
-  • Two measurement points: naive and optimized variants
+  • Two measurement points: AoS (naive) and SoA (optimized) variants
 
 Saves:  roofline.png  (and roofline.pdf)  in the same directory as the CSV.
 
@@ -17,15 +27,12 @@ Usage:
 
 import sys
 import os
-import csv
 import math
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from matplotlib.lines import Line2D
 
-matplotlib.rcParams['pdf.fonttype'] = 42   # embeddable fonts for LaTeX
+matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype']  = 42
 
 
@@ -57,12 +64,12 @@ def parse_csv(path: str) -> dict:
                 name = parts[0].strip()
                 try:
                     variants.append({
-                        "name":           name,
-                        "time_sec":       float(parts[1]),
-                        "total_evals":    int(parts[2]),
-                        "ai_flop_byte":   float(parts[3]),
-                        "gflops":         float(parts[4]),
-                        "bw_gbs":         float(parts[5]),
+                        "name":         name,
+                        "time_sec":     float(parts[1]),
+                        "total_evals":  int(parts[2]),
+                        "ai_flop_byte": float(parts[3]),
+                        "gflops":       float(parts[4]),
+                        "bw_gbs":       float(parts[5]),
                     })
                 except ValueError:
                     pass
@@ -72,11 +79,10 @@ def parse_csv(path: str) -> dict:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 2.  Build Roofline model
+# 2.  Roofline helper
 # ─────────────────────────────────────────────────────────────────────────────
 
 def roofline_flops(ai, peak_flops, peak_bw):
-    """Roofline attainable GFLOP/s for a given arithmetic intensity."""
     return np.minimum(peak_bw * ai, peak_flops)
 
 
@@ -85,13 +91,13 @@ def roofline_flops(ai, peak_flops, peak_bw):
 # ─────────────────────────────────────────────────────────────────────────────
 
 COLORS = {
-    "naive":     "#E84855",   # vivid red
-    "optimized": "#3E92CC",   # steel blue
+    "naive":     "#E84855",   # vivid red   — AoS
+    "optimized": "#3E92CC",   # steel blue  — SoA
 }
 
 VARIANT_LABELS = {
-    "naive":     "Naive  (sqrt × 3 per eval)",
-    "optimized": "Optimised  (precomputed matrix)",
+    "naive":     "Naive  (AoS: struct Client { double x, y; })",
+    "optimized": "Optimised  (SoA: vector<double> xs, ys)",
 }
 
 ANNOTATION_STYLE = dict(
@@ -103,60 +109,66 @@ ANNOTATION_STYLE = dict(
 
 
 def plot_roofline(data: dict, out_dir: str) -> None:
-    peak_flops   = data.get("hw_peak_flops_gflops", 25.6)
-    peak_mem_bw  = data.get("hw_peak_mem_bw_gbs",   68.0)
-    meas_mem_bw  = data.get("measured_mem_bw_gbs",  60.0)
-    peak_l2_bw   = data.get("hw_peak_l2_bw_gbs",   250.0)
-    peak_l1_bw   = data.get("hw_peak_l1_bw_gbs",   800.0)
-    variants     = data["variants"]
+    peak_flops  = data.get("hw_peak_flops_gflops", 25.6)
+    peak_mem_bw = data.get("hw_peak_mem_bw_gbs",   68.0)
+    meas_mem_bw = data.get("measured_mem_bw_gbs",  60.0)
+    peak_l2_bw  = data.get("hw_peak_l2_bw_gbs",   250.0)
+    peak_l1_bw  = data.get("hw_peak_l1_bw_gbs",   800.0)
+    variants    = data["variants"]
 
-    ridge_mem  = peak_flops / peak_mem_bw
-    ridge_l2   = peak_flops / peak_l2_bw
-    ridge_l1   = peak_flops / peak_l1_bw
+    ridge_mem = peak_flops / peak_mem_bw
 
-    ai_min = 1e-3
-    ai_max = max(10.0,
-                 max(v["ai_flop_byte"] for v in variants) * 3,
-                 ridge_mem * 5)
+    # AI is the same for both variants; use max for x-axis range
+    max_ai = max(v["ai_flop_byte"] for v in variants)
+    ai_min = 1e-2
+    ai_max = max(10.0, max_ai * 4)
     ai = np.logspace(math.log10(ai_min), math.log10(ai_max), 1000)
 
-    # ── Figure setup ─────────────────────────────────────────────────────────
-    fig, ax = plt.subplots(figsize=(9, 5.5))
+    fig, ax = plt.subplots(figsize=(10, 6))
     ax.set_xscale("log")
     ax.set_yscale("log")
 
-    # ── Cache-bandwidth ceilings (faint) ─────────────────────────────────────
+    # ── Cache-bandwidth ceilings ──────────────────────────────────────────────
     ax.plot(ai, roofline_flops(ai, peak_flops, peak_l1_bw),
             color="#CCCCCC", lw=1.1, ls="--", zorder=1,
-            label=f"L1 bandwidth ceil  ({peak_l1_bw:.0f} GB/s)")
+            label=f"L1 cache BW  ({peak_l1_bw:.0f} GB/s)")
     ax.plot(ai, roofline_flops(ai, peak_flops, peak_l2_bw),
             color="#AAAAAA", lw=1.1, ls="--", zorder=1,
-            label=f"L2 bandwidth ceil  ({peak_l2_bw:.0f} GB/s)")
+            label=f"L2 cache BW  ({peak_l2_bw:.0f} GB/s)")
 
-
-
-    # ── Theoretical memory bandwidth + peak compute (main Roofline) ──────────
+    # ── Theoretical DRAM + peak compute (main Roofline) ──────────────────────
     ax.plot(ai, roofline_flops(ai, peak_flops, peak_mem_bw),
             color="#2D6A4F", lw=2.5, ls="-", zorder=3,
             label=f"Theo. DRAM BW  ({peak_mem_bw:.0f} GB/s)")
     ax.axhline(peak_flops, color="#1B4332", lw=2.5, ls=":", zorder=3,
                label=f"Peak compute  ({peak_flops:.1f} GFLOP/s)")
 
-    # ── Measured memory bandwidth ceiling ─────────────────────────────────────
+    # ── Measured DRAM ceiling ─────────────────────────────────────────────────
     ax.plot(ai, roofline_flops(ai, peak_flops, meas_mem_bw),
             color="#F4A261", lw=2.0, ls="--", zorder=2,
             label=f"Measured DRAM BW  ({meas_mem_bw:.1f} GB/s)")
 
-    # Ridge annotation
+    # Ridge point annotation
     ax.annotate(
-        f"  Ridge\n  AI={ridge_mem:.2f}",
+        f"  Ridge\n  AI≈{ridge_mem:.2f} F/B",
         xy=(ridge_mem, peak_flops),
         fontsize=7.5, color="#1B4332",
-        xytext=(ridge_mem * 1.2, peak_flops * 0.88),
+        xytext=(ridge_mem * 1.3, peak_flops * 0.82),
         arrowprops=dict(arrowstyle="-", color="#1B4332", lw=0.8),
     )
 
+    # ── Vertical line: both variants share the same AI ────────────────────────
+    # Draw a single shared AI line since both points fall on the same x
+    if len(variants) >= 2:
+        shared_ai = variants[0]["ai_flop_byte"]
+        ax.axvline(shared_ai, color="#999999", lw=1.0, ls=":", alpha=0.5, zorder=2)
+        ax.text(shared_ai * 1.05, ai_min * 3,
+                f"AI = {shared_ai:.3f} F/B\n(identical for both variants)",
+                fontsize=7.5, color="#666666", va="bottom")
+
     # ── Measurement points ────────────────────────────────────────────────────
+    y_offsets = {"naive": 1.7, "optimized": 0.45}  # annotation y-multiplier
+
     for v in variants:
         name  = v["name"]
         ai_pt = v["ai_flop_byte"]
@@ -164,26 +176,24 @@ def plot_roofline(data: dict, out_dir: str) -> None:
         color = COLORS[name]
         label = VARIANT_LABELS[name]
 
-        # Attainable GFLOP/s at this AI (for efficiency computation)
-        attain = roofline_flops(np.array([ai_pt]), peak_flops, peak_mem_bw)[0]
-        eff    = gf_pt / attain * 100.0 if attain > 0 else 0.0
-
-        ax.scatter(ai_pt, gf_pt, color=color, s=110, zorder=5,
-                   edgecolors="white", linewidths=1.2, label=label)
-
-        # Vertical dashed line to roof
         roof_at = roofline_flops(np.array([ai_pt]), peak_flops, peak_mem_bw)[0]
-        ax.plot([ai_pt, ai_pt], [gf_pt, roof_at],
-                color=color, lw=0.9, ls=":", alpha=0.6, zorder=4)
+        eff     = gf_pt / roof_at * 100.0 if roof_at > 0 else 0.0
 
-        # Annotation box
+        ax.scatter(ai_pt, gf_pt, color=color, s=120, zorder=6,
+                   edgecolors="white", linewidths=1.4, label=label)
+
+        # Vertical dashed line to roof (shows gap from peak)
+        ax.plot([ai_pt, ai_pt], [gf_pt, roof_at],
+                color=color, lw=0.9, ls=":", alpha=0.55, zorder=4)
+
+        layout_tag = "AoS" if name == "naive" else "SoA"
         ax.annotate(
-            f"  {name.capitalize()}\n"
+            f"  {name.capitalize()} ({layout_tag})\n"
             f"  AI = {ai_pt:.3f} FLOP/B\n"
             f"  {gf_pt:.3f} GFLOP/s\n"
             f"  η = {eff:.1f}%",
             xy=(ai_pt, gf_pt),
-            xytext=(ai_pt * 1.35, gf_pt * (1.6 if name == "naive" else 0.55)),
+            xytext=(ai_pt * 1.4, gf_pt * y_offsets[name]),
             color=color,
             **ANNOTATION_STYLE,
             arrowprops=dict(arrowstyle="-", color=color, lw=0.9),
@@ -194,42 +204,34 @@ def plot_roofline(data: dict, out_dir: str) -> None:
     ax.set_ylabel("Attainable Performance  [GFLOP/s]", fontsize=11)
     ax.set_title(
         "Cache-Aware Roofline Model — VRP Delta Evaluation\n"
-        "Apple M1 Pro  ·  C++17 / -O2 / -march=native",
-        fontsize=12, fontweight="bold",
+        "AoS (struct Client) vs SoA (vector xs, ys)  ·  "
+        "Apple M1 Pro  ·  C++17 / -O2 / -march=native  ·  same math, different layout",
+        fontsize=11, fontweight="bold",
     )
 
-    # x-axis: show FLOP/byte values at integer powers of 2
     ax.set_xlim(ai_min, ai_max)
-    ax.set_ylim(1e-3, peak_flops * 3)
+    ax.set_ylim(5e-2, peak_flops * 3)
     ax.grid(True, which="both", ls=":", alpha=0.35)
     ax.tick_params(axis="both", which="major", labelsize=9)
 
-    # ── Legend ────────────────────────────────────────────────────────────────
-    ax.legend(
-        loc="upper left",
-        fontsize=8,
-        framealpha=0.9,
-        edgecolor="#DDDDDD",
-    )
+    ax.legend(loc="upper left", fontsize=8, framealpha=0.9, edgecolor="#DDDDDD")
 
-    # ── Summary table inset ───────────────────────────────────────────────────
-    col_labels = ["Variant", "AI\n[FLOP/B]", "GFLOP/s", "BW\n[GB/s]", "Time\n[s]"]
+    # ── Summary table ─────────────────────────────────────────────────────────
+    col_labels = ["Variant", "Layout", "AI\n[FLOP/B]", "GFLOP/s", "BW\n[GB/s]", "Time\n[s]"]
+    layout_map = {"naive": "AoS", "optimized": "SoA"}
     row_data = [
         [
             v["name"].capitalize(),
+            layout_map[v["name"]],
             f"{v['ai_flop_byte']:.4f}",
             f"{v['gflops']:.4f}",
             f"{v['bw_gbs']:.3f}",
-            f"{v['time_sec']:.2f}",
+            f"{v['time_sec']:.3f}",
         ]
         for v in variants
     ]
-    table = ax.table(
-        cellText=row_data,
-        colLabels=col_labels,
-        loc="lower right",
-        cellLoc="center",
-    )
+    table = ax.table(cellText=row_data, colLabels=col_labels,
+                     loc="lower right", cellLoc="center")
     table.auto_set_font_size(False)
     table.set_fontsize(7.5)
     table.scale(1, 1.35)
@@ -239,13 +241,12 @@ def plot_roofline(data: dict, out_dir: str) -> None:
             cell.set_facecolor("#EEF2F6")
             cell.set_text_props(fontweight="bold")
         elif row == 1:
-            cell.set_facecolor("#FFF0F0")
+            cell.set_facecolor("#FFF0F0")   # red tint for AoS
         else:
-            cell.set_facecolor("#F0F4FF")
+            cell.set_facecolor("#F0F4FF")   # blue tint for SoA
 
     plt.tight_layout()
 
-    # ── Save ──────────────────────────────────────────────────────────────────
     for ext in ("png", "pdf"):
         out_path = os.path.join(out_dir, f"roofline.{ext}")
         fig.savefig(out_path, dpi=180, bbox_inches="tight")
