@@ -6,8 +6,10 @@
 #include <cstdint>
 #include <iomanip>
 
-const uint16_t WINDOW_SIZE = 4095;
-const uint8_t LOOKAHEAD_SIZE = 15;
+const uint16_t WINDOW_SIZE = 65535; //16
+const uint8_t LOOKAHEAD_SIZE = 255; //8
+// const uint16_t WINDOW_SIZE = 4095; //12
+// const uint8_t LOOKAHEAD_SIZE = 15; //4
 const std::string MAGIC_HEADER = "LZ77"; // для проверки архива
 
 //--------------------------
