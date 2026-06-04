@@ -76,3 +76,5 @@ vrp/
 - C++17
 - GCC 9+ или Clang 10+
 - CMake 3.16+
+
+Completed on 4th of June 2026.
