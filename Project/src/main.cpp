@@ -3,9 +3,15 @@
  * @brief Точка входа решателя задач маршрутизации транспорта (VRP).
  *
  * Использование:
- *   vrp_solver <файл_инстанса> [--algorithm <algo>] [--vehicles <n>]
- *                              [--capacity <c>] [--format <vrp|solomon>]
+ *   vrp_solver <файл_инстанса> [--algorithm <algo>] [--format <vrp|solomon>]
  *                              [--seed <s>] [--iters <n>] [--penalty <p>]
+ *                              [--output-dir <dir>]
+ *
+ * Без --output-dir: результат выводится в stdout (как раньше).
+ * С --output-dir results:
+ *   создаётся  results/<instance>_<algo>/
+ *   внутри:    sol_<instance>_<algo>.txt   — вывод солвера
+ *              routes_<instance>_<algo>.svg — SVG-визуализация
  *
  * Алгоритмы (--algorithm):
  *   nn       — Nearest Neighbor (жадный)
@@ -17,7 +23,8 @@
  *
  * Примеры:
  *   vrp_solver data/A-n32-k5.vrp --algorithm hybrid
- *   vrp_solver data/C101.txt --format solomon --algorithm sa
+ *   vrp_solver data/A-n32-k5.vrp --algorithm hybrid --output-dir results
+ *   vrp_solver data/C101.txt --format solomon --algorithm sa --output-dir results
  */
 
 #include "core/distance.hpp"
@@ -36,8 +43,14 @@
 
 #include <chrono>
 #include <cstring>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 using namespace vrp;
 
@@ -51,6 +64,8 @@ static void print_usage(const char* prog) {
         << "Options:\n"
         << "  --algorithm <algo>   nn | cw | cw2opt | sa | ts | hybrid  (default: hybrid)\n"
         << "  --format <fmt>       vrp | solomon                         (default: vrp)\n"
+        << "  --output-dir <dir>   save sol_*.txt + routes_*.svg into\n"
+        << "                       <dir>/<instance>_<algo>/              (default: stdout)\n"
         << "  --seed <n>           Random seed for SA/hybrid             (default: 42)\n"
         << "  --iters <n>          Max SA iterations without improvement (default: 50000)\n"
         << "  --penalty <p>        Vehicle penalty weight                (default: 10.0)\n"
@@ -103,15 +118,25 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // -- --help до любого другого разбора
+    for (int i = 1; i < argc; ++i) {
+        if (std::strcmp(argv[i], "--help") == 0 ||
+            std::strcmp(argv[i], "-h") == 0) {
+            print_usage(argv[0]);
+            return 0;
+        }
+    }
+
     // ── разбор аргументов ───────────────────────────────────────────────────
-    std::string filepath  = argv[1];
-    std::string algorithm = "hybrid";
-    std::string format    = "vrp";
-    unsigned    seed      = 42;
-    int         max_iter  = 50000;
-    double      penalty   = 10.0;
-    double      t_initial = 100.0;
-    double      alpha     = 0.995;
+    std::string filepath   = argv[1];
+    std::string algorithm  = "hybrid";
+    std::string format     = "vrp";
+    std::string output_dir;          ///< Пустая строка → только stdout
+    unsigned    seed       = 42;
+    int         max_iter   = 50000;
+    double      penalty    = 10.0;
+    double      t_initial  = 100.0;
+    double      alpha      = 0.995;
 
     for (int i = 2; i < argc; ++i) {
         if (std::strcmp(argv[i], "--algorithm") == 0 && i + 1 < argc)
@@ -128,6 +153,8 @@ int main(int argc, char* argv[]) {
             t_initial = std::stod(argv[++i]);
         else if (std::strcmp(argv[i], "--alpha") == 0 && i + 1 < argc)
             alpha = std::stod(argv[++i]);
+        else if (std::strcmp(argv[i], "--output-dir") == 0 && i + 1 < argc)
+            output_dir = argv[++i];
         else if (std::strcmp(argv[i], "--help") == 0) {
             print_usage(argv[0]);
             return 0;
@@ -203,7 +230,98 @@ int main(int argc, char* argv[]) {
     double elapsed_ms = std::chrono::duration<double, std::milli>(t_end - t_start).count();
 
     // ── вывод результатов ────────────────────────────────────────────────────
-    print_solution_stats(sol, dist, inst, elapsed_ms, algorithm);
+
+    if (output_dir.empty()) {
+        // Режим по умолчанию: вывод в stdout (как раньше)
+        print_solution_stats(sol, dist, inst, elapsed_ms, algorithm);
+    } else {
+        // Режим --output-dir: создаём папку и сохраняем два файла
+        // Имя подпапки: <instance>_<algorithm>
+        const std::string subdir_name = inst.name + "_" + algorithm;
+        const std::filesystem::path base_dir(output_dir);
+        const std::filesystem::path out_dir = base_dir / subdir_name;
+
+        std::error_code ec;
+        std::filesystem::create_directories(out_dir, ec);
+        if (ec) {
+            std::cerr << "Cannot create directory " << out_dir << ": " << ec.message() << "\n";
+            return 3;
+        }
+
+        // ── sol_<name>_<algo>.txt ────────────────────────────────────────
+        const std::string sol_name   = "sol_" + subdir_name + ".txt";
+        const std::filesystem::path sol_path = out_dir / sol_name;
+        {
+            std::ofstream sol_file(sol_path);
+            if (!sol_file) {
+                std::cerr << "Cannot write " << sol_path << "\n";
+                return 3;
+            }
+            // Перенаправляем print_solution_stats в файл
+            std::streambuf* old_buf = std::cout.rdbuf(sol_file.rdbuf());
+            print_solution_stats(sol, dist, inst, elapsed_ms, algorithm);
+            std::cout.rdbuf(old_buf);
+        }
+
+        // ── routes_<name>_<algo>.svg ─────────────────────────────────────
+        const std::string svg_name = "routes_" + subdir_name + ".svg";
+        const std::filesystem::path svg_path = out_dir / svg_name;
+
+        // Ищем viz_svg рядом с vrp_solver (argv[0]).
+        // Используем fork+execv (POSIX) — пути передаются напрямую,
+        // без shell, так что скобки и пробелы в путях не ломают вызов.
+        std::filesystem::path viz_bin;
+        {
+            std::error_code ec2;
+            auto canon = std::filesystem::canonical(
+                std::filesystem::path(argv[0]), ec2);
+            viz_bin = ec2
+                ? std::filesystem::path(argv[0]).parent_path() / "viz_svg"
+                : canon.parent_path() / "viz_svg";
+        }
+
+        bool viz_ok = false;
+        {
+            std::string viz_str  = viz_bin.string();
+            std::string inst_str = filepath;
+            std::string sol_str  = sol_path.string();
+            std::string svg_str  = svg_path.string();
+
+            pid_t pid = fork();
+            if (pid == 0) {
+                // child: execv заменяет процесс, shell не используется
+                if (format == "solomon") {
+                    char fmt_flag[]  = "--format";
+                    char fmt_val[]   = "solomon";
+                    char* args[] = {
+                        viz_str.data(), inst_str.data(),
+                        sol_str.data(), svg_str.data(),
+                        fmt_flag, fmt_val, nullptr
+                    };
+                    execv(viz_str.c_str(), args);
+                } else {
+                    char* args[] = {
+                        viz_str.data(), inst_str.data(),
+                        sol_str.data(), svg_str.data(), nullptr
+                    };
+                    execv(viz_str.c_str(), args);
+                }
+                std::_Exit(127);   // execv вернулся — бинарник не найден
+            } else if (pid > 0) {
+                int status = 0;
+                waitpid(pid, &status, 0);
+                viz_ok = (WIFEXITED(status) && WEXITSTATUS(status) == 0);
+            }
+        }
+
+        std::cerr << "[vrp_solver] Results saved to: "
+                  << out_dir.string() << "/\n";
+        std::cerr << "  sol  -> " << sol_name << "\n";
+        if (viz_ok)
+            std::cerr << "  svg  -> " << svg_name << "\n";
+        else
+            std::cerr << "  svg  -> (viz_svg not found — sol saved)\n";
+    }
 
     return 0;
 }
