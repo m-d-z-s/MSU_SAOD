@@ -83,11 +83,11 @@ double OrOpt::improve_route(Route& route, const DistanceMatrix& dist, int k) {
 
         if (best_seg == -1) break; // улучшений нет
 
-        // Применяем лучший ход: извлекаем сегмент и вставляем в новую позицию.
+        // Применяем лучший ход: извлекаем сегмент и вставляем в новую позицию
         std::vector<int> seg_clients(c.begin() + best_seg,
                                      c.begin() + best_seg + k);
 
-        // Удаляем сегмент.
+        // Удаляем сегмент
         c.erase(c.begin() + best_seg, c.begin() + best_seg + k);
 
         // Пересчитываем позицию вставки после удаления.

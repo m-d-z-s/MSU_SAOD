@@ -35,7 +35,7 @@ double cost(const Solution& sol, const DistanceMatrix& dist, double penalty) {
  */
 double neighbor_two_opt(Solution& sol, const DistanceMatrix& dist,
                         std::mt19937& rng) {
-    // Собираем непустые маршруты.
+    // Собираем непустые маршруты
     std::vector<int> nonempty;
     nonempty.reserve(sol.routes.size());
     for (int i = 0; i < static_cast<int>(sol.routes.size()); ++i) {
@@ -83,7 +83,7 @@ double neighbor_relocate(Solution& sol, const Instance& inst,
     const int m = static_cast<int>(sol.routes.size());
     if (m < 2) return 0.0;
 
-    // Выбираем случайный непустой маршрут-источник.
+    // Выбираем случайный непустой маршрут-источник
     std::vector<int> nonempty;
     for (int i = 0; i < m; ++i)
         if (!sol.routes[i].empty()) nonempty.push_back(i);
@@ -93,7 +93,7 @@ double neighbor_relocate(Solution& sol, const Instance& inst,
     int idx1 = pick_r(rng);
     int r1   = nonempty[idx1];
 
-    // Выбираем случайного клиента из r1.
+    // Выбираем случайного клиента из r1
     Route& src = sol.routes[r1];
     std::uniform_int_distribution<int> pick_c(0, src.size() - 1);
     int pos1   = pick_c(rng);

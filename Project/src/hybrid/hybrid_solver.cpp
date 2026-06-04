@@ -2,8 +2,8 @@
  * @file hybrid_solver.cpp
  * @brief Гибридный решатель VRP: Clarke-Wright → LS → SA.
  *
- * Собственная модификация, обязательная по требованиям преподавателя.
- * Pipeline: CW → 2-opt → Or-opt → Relocate+Swap → SA (адаптивное охлаждение).
+ * Собственная модификация.
+ * Pipeline: CW -> 2-opt -> Or-opt -> Relocate+Swap -> SA (адаптивное охлаждение).
  * Функция оценки: total_length + vehicle_penalty * num_routes.
  */
 
@@ -35,16 +35,16 @@ double HybridSolver::score(const Solution& sol, const DistanceMatrix& dist,
  *   3. SA: выходит из локальных оптимумов с адаптивным охлаждением.
  *
  * Обоснование взвешенной функции оценки:
- *   Добавляя штраф vehicle_penalty * num_routes, мы стимулируем SA
+ *   Добавляя штраф vehicle_penalty * num_routes, стимулируем SA
  *   объединять маршруты (уменьшать число машин), что в реальных задачах
  *   снижает операционные расходы. Параметр vehicle_penalty позволяет
  *   регулировать компромисс между расстоянием и числом машин.
  *
  * Сложность:
- *   - CW: O(n² log n)
- *   - 2-opt: O(m * L²) за проход, несколько итераций
- *   - Or-opt: O(m * L²) за проход
- *   - InterRoute: O(m² * L²) за проход
+ *   - CW: O(n^2 log n)
+ *   - 2-opt: O(m * L^2) за проход, несколько итераций
+ *   - Or-opt: O(m * L^2) за проход
+ *   - InterRoute: O(m^2 * L^2) за проход
  *   - SA: O(max_iter) итераций, каждая O(L) для delta-evaluation
  */
 Solution HybridSolver::solve(const Instance& inst, const DistanceMatrix& dist,

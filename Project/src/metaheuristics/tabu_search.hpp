@@ -32,8 +32,6 @@ namespace vrp {
      * Функция оценки: total_length + vehicle_penalty * num_routes.
      *
      * Сложность одной итерации: O(m² * L²), где m — число маршрутов, L — длина.
-     *
-     * @see Gendreau et al. (1994) — tabu search для CVRP.
      */
     class TabuSearch {
     public:

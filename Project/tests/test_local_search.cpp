@@ -6,7 +6,7 @@
  *   - Длина не возрастает после улучшения.
  *   - Граничные случаи: 1 клиент, 2 клиента, все клиенты в одном маршруте.
  *   - Inter-route: Relocate уменьшает число маршрутов, если возможно.
- *   - Цепочка CW → 2-opt → Or-opt → Relocate даёт валидное решение.
+ *   - Цепочка CW -> 2-opt -> Or-opt -> Relocate даёт валидное решение.
  */
 
 #include "local_search/two_opt.hpp"
@@ -86,7 +86,7 @@ static Instance make_one_route() {
  *   два маршрута, один из которых можно объединить с другим.
  */
 static Solution make_split_solution(const Instance& /*inst*/) {
-    // Клиенты 1,2,3: спрос по 10, вместимость 100 → все в один маршрут.
+    // Клиенты 1,2,3: спрос по 10, вместимость 100 -> все в один маршрут.
     // Принудительно создаём 2 маршрута.
     Solution sol;
     Route r1, r2;
@@ -129,14 +129,14 @@ static void test_two_opt_5client() {
 
 static void test_two_opt_improves_bad_route() {
     std::cout << "\n[2-opt] explicitly bad route: 0-3-1-2-0\n";
-    // Маршрут 3→1→2 хуже, чем 1→2→3 или 1→3→2.
+    // Маршрут 3->1->2 хуже, чем 1->2->3 или 1->3->2.
     Instance inst = make_one_route();
     DistanceMatrix d(inst);
 
     // Создаём заведомо плохой маршрут вручную.
     Solution sol;
     Route r;
-    r.clients = {3, 1, 2}; // порядок: 0→3→1→2→0
+    r.clients = {3, 1, 2}; // порядок: 0->3->1->2->0
     sol.routes.push_back(r);
 
     double before = sol.total_length(d);
@@ -145,8 +145,8 @@ static void test_two_opt_improves_bad_route() {
 
     check(sol.validate(inst).empty(), "valid after 2-opt");
     check(after <= before + 1e-9, "length did not increase");
-    // Оптимальный порядок для точек на оси X: 1,2,3 → длина 3+3=6.
-    // Плохой порядок 3,1,2: 0→3(dist=2), 3→1(dist=2), 1→2(dist=1), 2→0(dist=3) = 8.
+    // Оптимальный порядок для точек на оси X: 1,2,3 -> длина 3+3=6.
+    // Плохой порядок 3,1,2: 0->3(dist=2), 3->1(dist=2), 1->2(dist=1), 2->0(dist=3) = 8.
     // После 2-opt должно стать 6 (или 7 для 1,3,2).
     check(after < before - 1e-9, "length improved on bad route");
 }
@@ -156,7 +156,7 @@ static void test_two_opt_already_optimal() {
     Instance inst = make_one_route();
     DistanceMatrix d(inst);
 
-    // Оптимальный маршрут: 1→2→3.
+    // Оптимальный маршрут: 1->2->3.
     Solution sol;
     Route r;
     r.clients = {1, 2, 3};

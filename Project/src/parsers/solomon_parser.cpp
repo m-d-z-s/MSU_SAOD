@@ -33,8 +33,6 @@ std::string trim(const std::string& s) {
  *   Строка 6: значения числа машин и вместимости
  *   Строки 7-9: заголовок CUSTOMER и названия столбцов
  *   Строки 10+: данные клиентов (id x y demand ready due service)
- *
- * Вместо хрупкой нумерации строк используем поиск первой строки с числами.
  */
 Instance SolomonParser::parse(const std::string& path) {
     std::ifstream in(path);
@@ -70,12 +68,11 @@ Instance SolomonParser::parse(const std::string& path) {
         int a, b;
         if ((ss >> a >> b) && !(ss >> a)) { // ровно два числа
             inst.num_vehicles = b; // порядок: NUMBER CAPACITY
-            // Но нам нужно убедиться: это не строка клиента (7 чисел).
-            // Попробуем ещё раз с двумя числами явно.
+
             std::istringstream ss2(lines[i]);
             int n1, n2; double x;
             ss2 >> n1 >> n2;
-            if (!(ss2 >> x)) { // нет третьего числа → это строка машин
+            if (!(ss2 >> x)) {
                 inst.num_vehicles = n1;
                 inst.capacity     = n2;
                 vehicle_line = i;

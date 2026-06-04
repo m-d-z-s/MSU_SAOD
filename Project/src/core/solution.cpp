@@ -17,8 +17,8 @@ int Route::demand(const Instance& inst) const {
 double Route::length(const DistanceMatrix& dist) const {
     if (clients.empty()) return 0.0;
 
-    double len = dist(0, clients.front())   // депо → первый клиент
-               + dist(clients.back(), 0);   // последний клиент → депо
+    double len = dist(0, clients.front())   // депо -> первый клиент
+               + dist(clients.back(), 0);   // последний клиент -> депо
 
     for (int i = 0; i + 1 < static_cast<int>(clients.size()); ++i) {
         len += dist(clients[i], clients[i + 1]);
@@ -47,7 +47,7 @@ int Solution::num_routes() const {
 std::string Solution::validate(const Instance& inst) const {
     const int n = inst.num_clients();
 
-    // Считаем сколько раз каждый клиент встречается
+    // Считает сколько раз каждый клиент встречается
     std::vector<int> visits(n + 1, 0); // индексы 1..n
 
     for (const Route& r : routes) {

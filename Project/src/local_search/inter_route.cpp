@@ -11,7 +11,7 @@ namespace {
 /**
  * @brief Вычисляет стоимость удаления клиента по индексу pos из маршрута.
  *
- * Удаление клиента c[pos] из маршрута [... → prev → c[pos] → next → ...]:
+ * Удаление клиента c[pos] из маршрута [... -> prev -> c[pos] -> next -> ...]:
  *   cost = dist(prev, next) - dist(prev, c[pos]) - dist(c[pos], next)
  * (отрицательное значение = уменьшение длины маршрута).
  *
@@ -220,7 +220,7 @@ double InterRoute::swap(Solution& sol, const Instance& inst,
 
         if (best_r1 == -1) break;
 
-        // Выполняем обмен.
+        // Выполняет обмен
         std::swap(sol.routes[best_r1].clients[best_p1],
                   sol.routes[best_r2].clients[best_p2]);
 

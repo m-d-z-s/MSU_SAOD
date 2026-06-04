@@ -87,7 +87,7 @@ static Instance make_clustered(int n, int capacity,
     std::normal_distribution<double>       spread(0.0, 8.0);
     std::uniform_int_distribution<int>     dem(1, 10);
 
-    // Генерируем центры кластеров
+    // Генерирует центры кластеров
     std::vector<std::pair<double, double>> centers;
     for (int c = 0; c < n_clusters; ++c)
         centers.push_back({center_dist(rng), center_dist(rng)});

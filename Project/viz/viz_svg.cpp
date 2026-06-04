@@ -2,7 +2,7 @@
  * @file viz_svg.cpp
  * @brief Генератор анимированного SVG для визуализации решений VRP.
  *
- * Читает инстанс (.vrp / Solomon .txt) и вывод врп-солвера,
+ * Читает инстанс (.vrp / Solomon .txt) и вывод vrp-солвера,
  * строит один анимированный SVG-файл со светлой темой.
  *
  * Анимации:
@@ -22,10 +22,8 @@
  * Пример полного pipeline:
  *   ./build/vrp_solver data/A-n32-k5.vrp --algorithm hybrid > results/sol.txt
  *   ./build/viz_svg data/A-n32-k5.vrp results/sol.txt routes.svg
- *   open routes.svg          # macOS
- *   xdg-open routes.svg      # Linux
  *
- * Зависимости: только C++17 STL (no third-party libs).
+ * Зависимости: только C++17 STL.
  */
 
 #include <algorithm>
@@ -333,7 +331,7 @@ static std::pair<std::vector<Route>, SolverStats> parse_solution(const std::stri
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @brief Маппинг координат инстанса → пиксели SVG.
+ * @brief Маппинг координат инстанса -> пиксели SVG.
  *
  * Сохраняет пропорции; по умолчанию Y инвертируется
  * (SVG растёт вниз, координаты инстанса — вверх).
@@ -594,7 +592,7 @@ private:
      * @brief Рисует маршруты с анимацией "рисования" через stroke-dashoffset.
      *
      * Каждый маршрут — отдельная группа <g class="route-group">.
-     * Линия анимируется: stroke-dasharray = длина, dashoffset 0→0.
+     * Линия анимируется: stroke-dasharray = длина, dashoffset 0->0.
      * После прорисовки всплывает метка с длиной.
      */
     static void write_routes(std::ostream& out,
@@ -688,7 +686,7 @@ private:
                               const std::map<int, const Client*>& /*cmap*/,
                               const Transform& tr)
     {
-        // Маппинг client_id → route_index
+        // Маппинг client_id -> route_index
         std::map<int, int> client_route;
         for (size_t ri = 0; ri < routes.size(); ++ri)
             for (int id : routes[ri].nodes)
@@ -714,7 +712,7 @@ private:
                 << " fill=\"" << col << "\""
                 << " stroke=\"white\" stroke-width=\"1.5\""
                 << " filter=\"url(#shadow)\">\n";
-            // Появление: r 0 → CLIENT_R
+            // Появление: r 0 -> CLIENT_R
             out << "      <animate attributeName=\"r\""
                 << " from=\"0\" to=\"" << CLIENT_R << "\""
                 << " dur=\"0.22s\" begin=\"" << fmt(delay, 3) << "s\""

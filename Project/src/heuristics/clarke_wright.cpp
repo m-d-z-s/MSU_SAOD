@@ -29,7 +29,7 @@ struct Saving {
  * Клиент c является «хвостом» маршрута r, если routes[r].clients.back() == c.
  * Клиент c является «головой» маршрута r, если routes[r].clients.front() == c.
  *
- * При слиянии: конец маршрута A → начало маршрута B.
+ * При слиянии: конец маршрута A -> начало маршрута B.
  * Маршрут B переносится в хвост A, маршрут B помечается пустым.
  */
 Solution ClarkeWright::solve(const Instance& inst, const DistanceMatrix& dist) {
@@ -39,7 +39,7 @@ Solution ClarkeWright::solve(const Instance& inst, const DistanceMatrix& dist) {
     // routes[r].clients = {r+1}, route_of[r+1] = r.
     std::vector<Route> routes(n);
     std::vector<int>   load(n);
-    std::vector<int>   route_of(n + 1); // route_of[c] → индекс маршрута
+    std::vector<int>   route_of(n + 1); // route_of[c] -> индекс маршрута
 
     for (int i = 0; i < n; ++i) {
         routes[i].clients = {i + 1};
@@ -47,7 +47,7 @@ Solution ClarkeWright::solve(const Instance& inst, const DistanceMatrix& dist) {
         route_of[i + 1]   = i;
     }
 
-    // Вычисляем все экономии.
+    // Вычисляет все экономии
     std::vector<Saving> savings;
     savings.reserve(static_cast<size_t>(n) * (n - 1) / 2);
     for (int i = 1; i <= n; ++i) {
@@ -57,11 +57,11 @@ Solution ClarkeWright::solve(const Instance& inst, const DistanceMatrix& dist) {
         }
     }
 
-    // Сортируем по убыванию экономии.
+    // Сортирует по убыванию экономии
     std::sort(savings.begin(), savings.end(),
               [](const Saving& a, const Saving& b) { return a.value > b.value; });
 
-    // Жадное слияние маршрутов.
+    // Жадное слияние маршрутов
     for (const Saving& sv : savings) {
         int ci = sv.i;
         int cj = sv.j;
@@ -69,12 +69,12 @@ Solution ClarkeWright::solve(const Instance& inst, const DistanceMatrix& dist) {
         int ri = route_of[ci];
         int rj = route_of[cj];
 
-        // Клиенты должны быть в разных непустых маршрутах.
+        // Клиенты должны быть в разных непустых маршрутах
         if (ri == rj) continue;
         if (routes[ri].empty() || routes[rj].empty()) continue;
 
         // ci должен быть хвостом маршрута ri, cj — головой маршрута rj.
-        // Если не так — проверяем симметричный вариант: cj-хвост ri, ci-голова rj.
+        // Если не так — проверяем симметричный вариант: cj-хвост ri, ci-голова rj
         bool ci_tail_ri = (routes[ri].clients.back()  == ci);
         bool cj_head_rj = (routes[rj].clients.front() == cj);
         bool cj_tail_rj = (routes[rj].clients.back()  == cj);
@@ -85,25 +85,25 @@ Solution ClarkeWright::solve(const Instance& inst, const DistanceMatrix& dist) {
 
         if (!can_merge_ij && !can_merge_ji) continue;
 
-        // Проверяем вместимость.
+        // Проверяет вместимость
         if (load[ri] + load[rj] > inst.capacity) continue;
 
-        // Выполняем слияние: хвост A + голова B.
+        // Выполняет слияние: хвост A + голова B
         if (can_merge_ij) {
-            // Присоединяем маршрут rj к концу ri.
+            // Присоединяет маршрут rj к концу ri
             for (int c : routes[rj].clients) {
                 routes[ri].clients.push_back(c);
                 route_of[c] = ri;
             }
         } else {
-            // can_merge_ji: присоединяем маршрут ri к концу rj.
+            // can_merge_ji: присоединяет маршрут ri к концу rj
             for (int c : routes[ri].clients) {
                 routes[rj].clients.push_back(c);
                 route_of[c] = rj;
             }
-            // Переносим результат в ri, очищаем rj.
+            // Переносит результат в ri, очищает rj
             routes[ri] = std::move(routes[rj]);
-            // Обновляем route_of для всех клиентов нового ri.
+            // Обновляет route_of для всех клиентов нового ri
             for (int c : routes[ri].clients) {
                 route_of[c] = ri;
             }
@@ -114,7 +114,7 @@ Solution ClarkeWright::solve(const Instance& inst, const DistanceMatrix& dist) {
         load[rj] = 0;
     }
 
-    // Собираем непустые маршруты в решение.
+    // Собирает непустые маршруты в решение
     Solution sol;
     for (Route& r : routes) {
         if (!r.empty()) {

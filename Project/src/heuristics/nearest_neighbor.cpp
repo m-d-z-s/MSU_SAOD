@@ -17,7 +17,7 @@ Solution NearestNeighbor::solve(const Instance& inst, const DistanceMatrix& dist
         int load = 0;
         int current = 0; // начинаем из депо (индекс 0)
 
-        // Строим маршрут жадно: берём ближайшего подходящего клиента.
+        // Строит маршрут жадно: берём ближайшего подходящего клиента
         bool added = true;
         while (added) {
             added = false;

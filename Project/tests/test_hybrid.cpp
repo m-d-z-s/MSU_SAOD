@@ -186,7 +186,6 @@ static void test_params_defaults() {
     auto inst = make_5client();
     DistanceMatrix dist(inst);
 
-    // Дефолтные параметры не должны вызывать краш
     auto sol = HybridSolver::solve(inst, dist);
     check(sol.validate(inst).empty(), "default params: solution valid");
 }

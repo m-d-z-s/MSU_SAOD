@@ -7,7 +7,7 @@
 namespace vrp {
 
 /**
- * @brief Параметры алгоритма имитации отжига.
+ * @brief Параметры алгоритма
  */
 struct SAParams {
     double t_initial   = 100.0; ///< Начальная температура
@@ -17,7 +17,7 @@ struct SAParams {
     int    plateau_len = 500;   ///< Длина «плато»: нет улучшений → alpha адаптируется
     double alpha_boost = 0.98;  ///< alpha при плато (замедляем охлаждение)
     double vehicle_penalty = 10.0; ///< Штраф за одно лишнее ТС в функции оценки
-    unsigned seed = 42;         ///< Начальное значение ГПСЧ
+    unsigned seed = 42;         ///< Начальное значение
 };
 
 /**
@@ -36,8 +36,6 @@ struct SAParams {
  *   давая алгоритму больше времени на выход из локального оптимума.
  *
  * Сложность: O(max_iter * L) в среднем, где L — длина маршрута.
- *
- * @see Clarke & Wright (1964), Kirkpatrick et al. (1983).
  */
 class SimulatedAnnealing {
 public:

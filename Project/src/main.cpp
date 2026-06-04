@@ -7,7 +7,7 @@
  *                              [--seed <s>] [--iters <n>] [--penalty <p>]
  *                              [--output-dir <dir>]
  *
- * Без --output-dir: результат выводится в stdout (как раньше).
+ * Без --output-dir: результат выводится в stdout.
  * С --output-dir results:
  *   создаётся  results/<instance>_<algo>/
  *   внутри:    sol_<instance>_<algo>.txt   — вывод солвера
