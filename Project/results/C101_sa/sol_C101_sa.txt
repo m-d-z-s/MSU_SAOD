@@ -5,7 +5,7 @@ Capacity     : 200
 Routes used  : 10
 Total length : 826.072
 Valid        : YES
-Time (ms)    : 1.465
+Time (ms)    : 0.872083
 
 Routes:
   Route 1 [demand=200/200, len=97.6316]: 0 -> 98 -> 96 -> 95 -> 94 -> 92 -> 93 -> 97 -> 100 -> 99 -> 3 -> 0

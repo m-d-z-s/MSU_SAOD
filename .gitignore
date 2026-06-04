@@ -1,9 +1,0 @@
-*.idea
-*build
-cmake-build-debug
-tests_exe
-parse_results.py
-run_all.sh
-/Project/.idea/
-Task3/trie
-/Project/build/

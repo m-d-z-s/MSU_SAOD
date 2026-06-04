@@ -1,0 +1,15 @@
+
+=== A-n33-k5 | cw2opt ===
+Clients      : 32
+Capacity     : 100
+Routes used  : 5
+Total length : 691.339
+Valid        : YES
+Time (ms)    : 0.027167
+
+Routes:
+  Route 1 [demand=94/100, len=135.252]: 0 -> 10 -> 30 -> 25 -> 27 -> 5 -> 12 -> 0
+  Route 2 [demand=98/100, len=113.277]: 0 -> 6 -> 19 -> 14 -> 21 -> 1 -> 31 -> 18 -> 11 -> 0
+  Route 3 [demand=92/100, len=184.175]: 0 -> 29 -> 16 -> 3 -> 9 -> 17 -> 15 -> 0
+  Route 4 [demand=97/100, len=173.119]: 0 -> 20 -> 32 -> 13 -> 8 -> 7 -> 26 -> 4 -> 22 -> 0
+  Route 5 [demand=65/100, len=85.5158]: 0 -> 2 -> 24 -> 28 -> 23 -> 0

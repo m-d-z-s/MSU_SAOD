@@ -1,0 +1,16 @@
+
+=== A-n33-k6 | ts ===
+Clients      : 32
+Capacity     : 100
+Routes used  : 6
+Total length : 777.003
+Valid        : YES
+Time (ms)    : 0.686458
+
+Routes:
+  Route 1 [demand=81/100, len=148.35]: 0 -> 22 -> 26 -> 4 -> 8 -> 3 -> 5 -> 0
+  Route 2 [demand=97/100, len=151.152]: 0 -> 6 -> 19 -> 20 -> 9 -> 15 -> 2 -> 7 -> 0
+  Route 3 [demand=99/100, len=144.25]: 0 -> 32 -> 10 -> 11 -> 29 -> 17 -> 14 -> 0
+  Route 4 [demand=91/100, len=72.2672]: 0 -> 12 -> 21 -> 0
+  Route 5 [demand=89/100, len=77.1224]: 0 -> 28 -> 1 -> 18 -> 13 -> 0
+  Route 6 [demand=84/100, len=183.861]: 0 -> 25 -> 16 -> 30 -> 27 -> 31 -> 23 -> 24 -> 0

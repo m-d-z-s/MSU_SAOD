@@ -1,0 +1,17 @@
+
+=== A-n33-k6 | cw ===
+Clients      : 32
+Capacity     : 100
+Routes used  : 7
+Total length : 776.256
+Valid        : YES
+Time (ms)    : 0.027042
+
+Routes:
+  Route 1 [demand=81/100, len=148.588]: 0 -> 22 -> 26 -> 4 -> 3 -> 8 -> 5 -> 0
+  Route 2 [demand=97/100, len=151.152]: 0 -> 6 -> 19 -> 20 -> 9 -> 15 -> 2 -> 7 -> 0
+  Route 3 [demand=83/100, len=141.459]: 0 -> 32 -> 10 -> 11 -> 29 -> 17 -> 0
+  Route 4 [demand=91/100, len=72.2672]: 0 -> 12 -> 21 -> 0
+  Route 5 [demand=84/100, len=67.2667]: 0 -> 14 -> 1 -> 18 -> 13 -> 0
+  Route 6 [demand=84/100, len=183.861]: 0 -> 25 -> 16 -> 30 -> 27 -> 31 -> 23 -> 24 -> 0
+  Route 7 [demand=21/100, len=11.6619]: 0 -> 28 -> 0

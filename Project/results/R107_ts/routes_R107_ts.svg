@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="960" height="720"
+     viewBox="0 0 960 720">
+<defs>
+  <marker id="arrow0" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#E63946" opacity="0.9"/>
+  </marker>
+  <marker id="arrow1" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#2176AE" opacity="0.9"/>
+  </marker>
+  <marker id="arrow2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#2A9D8F" opacity="0.9"/>
+  </marker>
+  <marker id="arrow3" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#E76F51" opacity="0.9"/>
+  </marker>
+  <marker id="arrow4" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#6A4C93" opacity="0.9"/>
+  </marker>
+  <marker id="arrow5" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#3BB273" opacity="0.9"/>
+  </marker>
+  <marker id="arrow6" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#F4A261" opacity="0.9"/>
+  </marker>
+  <marker id="arrow7" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+    <path d="M0,0 L0,6 L8,3 z" fill="#023E8A" opacity="0.9"/>
+  </marker>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="2" stdDeviation="3"
+                  flood-color="#00000022"/>
+  </filter>
+  <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="4" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <style>
+    .route-group path { transition: opacity 0.25s, stroke-width 0.25s; }
+    .route-group circle { transition: opacity 0.25s; }
+    svg:hover .route-group { opacity: 0.18; }
+    svg:hover .route-group:hover { opacity: 1.0; }
+    svg:hover .route-group:hover path { stroke-width: 3.8px; }
+    .client-dot { transition: r 0.2s, opacity 0.2s; cursor: default; }
+    .client-dot:hover { opacity: 1 !important; }
+    .label-len { font: 600 10px/1 'SF Mono', 'Fira Mono', monospace; }
+    .stat-key  { font: 400 11px/1 'SF Mono', 'Fira Mono', monospace; fill: #8A8278; }
+    .stat-val  { font: 700 11px/1 'SF Mono', 'Fira Mono', monospace; fill: #2D2A24; }
+    .panel-bg  { fill: white; fill-opacity: 0.88;
+                 stroke: #E2DDD7; stroke-width: 1; rx: 8; }
+  </style>
+</defs>
+<rect width="960" height="720" fill="#F8F6F1"/>
+<defs>
+  <pattern id="texture" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="8" x2="8" y2="0" stroke="#00000006" stroke-width="1"/>
+  </pattern>
+</defs>
+<rect width="960" height="720" fill="url(#texture)"/>
+<rect x="72" y="72" width="816" height="576" fill="white" fill-opacity="0.6" stroke="#C8C2B8" stroke-width="0.8" rx="4"/>
+<g id="grid" opacity="0.5">
+  <line x1="152" y1="72" x2="152" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="232" y1="72" x2="232" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="312" y1="72" x2="312" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="392" y1="72" x2="392" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="472" y1="72" x2="472" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="552" y1="72" x2="552" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="632" y1="72" x2="632" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="712" y1="72" x2="712" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="792" y1="72" x2="792" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="872" y1="72" x2="872" y2="648" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="132" x2="888" y2="132" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="192" x2="888" y2="192" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="252" x2="888" y2="252" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="312" x2="888" y2="312" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="372" x2="888" y2="372" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="432" x2="888" y2="432" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="492" x2="888" y2="492" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="552" x2="888" y2="552" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+  <line x1="72" y1="612" x2="888" y2="612" stroke="#E2DDD7" stroke-width="0.6" stroke-dasharray="3,5"/>
+</g>
+<g id="routes">
+  <g class="route-group" id="route_0">
+    <path d="M 483.89 398.92 L 577.30 305.51 L 592.86 219.89 L 639.57 204.32 L 639.57 251.03 L 686.27 266.59 L 717.41 243.24 L 701.84 165.41 L 655.14 142.05 L 694.05 72.00 L 592.86 103.14 L 561.73 165.41 L 522.81 204.32 L 499.46 235.46 L 530.59 289.95 L 483.89 398.92" fill="none" stroke="#E63946" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1065.70" stroke-dashoffset="1065.70" marker-mid="url(#arrow0)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="1065.70" to="0" dur="1.78s" begin="0.60s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="680.49" y="137.73" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#E63946" stroke-width="0.8"/>
+      <text x="683.49" y="148.73" class="label-len" fill="#E63946">136.9</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.38s" fill="freeze"/>
+    </g>
+  </g>
+  <g class="route-group" id="route_1">
+    <path d="M 483.89 398.92 L 413.84 398.92 L 343.78 406.70 L 328.22 437.84 L 297.08 430.05 L 250.38 437.84 L 258.16 375.57 L 227.03 297.73 L 273.73 235.46 L 227.03 204.32 L 258.16 142.05 L 328.22 72.00 L 421.62 134.27 L 452.76 149.84 L 483.89 134.27 L 444.97 204.32 L 499.46 305.51 L 483.89 398.92" fill="none" stroke="#2176AE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1175.68" stroke-dashoffset="1175.68" marker-mid="url(#arrow1)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="1175.68" to="0" dur="1.96s" begin="0.95s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="252.38" y="203.89" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#2176AE" stroke-width="0.8"/>
+      <text x="255.38" y="214.89" class="label-len" fill="#2176AE">151.0</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.91s" fill="freeze"/>
+    </g>
+  </g>
+  <g class="route-group" id="route_2">
+    <path d="M 483.89 398.92 L 398.27 577.95 L 444.97 632.43 L 390.49 648.00 L 328.22 593.51 L 297.08 562.38 L 250.38 632.43 L 242.59 531.24 L 289.30 515.68 L 304.86 484.54 L 336.00 500.11 L 328.22 523.46 L 351.57 531.24 L 483.89 398.92" fill="none" stroke="#2A9D8F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="994.55" stroke-dashoffset="994.55" marker-mid="url(#arrow2)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="994.55" to="0" dur="1.66s" begin="1.30s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="248.49" y="565.84" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#2A9D8F" stroke-width="0.8"/>
+      <text x="251.49" y="576.84" class="label-len" fill="#2A9D8F">127.8</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.96s" fill="freeze"/>
+    </g>
+  </g>
+  <g class="route-group" id="route_3">
+    <path d="M 483.89 398.92 L 483.89 360.00 L 452.76 266.59 L 413.84 266.59 L 367.14 282.16 L 398.27 219.89 L 367.14 165.41 L 328.22 204.32 L 312.65 266.59 L 328.22 305.51 L 289.30 336.65 L 320.43 383.35 L 367.14 360.00 L 421.62 336.65 L 483.89 398.92" fill="none" stroke="#E76F51" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="824.57" stroke-dashoffset="824.57" marker-mid="url(#arrow3)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="824.57" to="0" dur="1.37s" begin="1.65s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="349.68" y="168.86" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#E76F51" stroke-width="0.8"/>
+      <text x="352.68" y="179.86" class="label-len" fill="#E76F51">105.9</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="3.02s" fill="freeze"/>
+    </g>
+  </g>
+  <g class="route-group" id="route_4">
+    <path d="M 483.89 398.92 L 561.73 437.84 L 655.14 445.62 L 717.41 398.92 L 709.62 344.43 L 655.14 297.73 L 624.00 266.59 L 639.57 321.08 L 624.00 336.65 L 647.35 367.78 L 647.35 383.35 L 600.65 398.92 L 592.86 344.43 L 530.59 383.35 L 483.89 398.92" fill="none" stroke="#6A4C93" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="789.53" stroke-dashoffset="789.53" marker-mid="url(#arrow4)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="789.53" to="0" dur="1.32s" begin="2.00s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="633.78" y="277.84" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#6A4C93" stroke-width="0.8"/>
+      <text x="636.78" y="288.84" class="label-len" fill="#6A4C93">101.4</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="3.32s" fill="freeze"/>
+    </g>
+  </g>
+  <g class="route-group" id="route_5">
+    <path d="M 483.89 398.92 L 491.68 468.97 L 444.97 476.76 L 406.05 484.54 L 413.84 461.19 L 483.89 398.92" fill="none" stroke="#3BB273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="275.87" stroke-dashoffset="275.87" marker-mid="url(#arrow5)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="275.87" to="0" dur="0.46s" begin="2.35s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="427.51" y="464.65" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#3BB273" stroke-width="0.8"/>
+      <text x="430.51" y="475.65" class="label-len" fill="#3BB273">35.4</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="2.81s" fill="freeze"/>
+    </g>
+  </g>
+  <g class="route-group" id="route_6">
+    <path d="M 483.89 398.92 L 639.57 515.68 L 701.84 492.32 L 717.41 515.68 L 678.49 577.95 L 732.97 632.43 L 639.57 632.43 L 624.00 577.95 L 592.86 585.73 L 538.38 616.86 L 561.73 593.51 L 569.51 570.16 L 577.30 546.81 L 483.89 398.92" fill="none" stroke="#F4A261" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="941.74" stroke-dashoffset="941.74" marker-mid="url(#arrow6)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="941.74" to="0" dur="1.57s" begin="2.70s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="633.78" y="589.19" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#F4A261" stroke-width="0.8"/>
+      <text x="636.78" y="600.19" class="label-len" fill="#F4A261">121.0</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="4.27s" fill="freeze"/>
+    </g>
+  </g>
+  <g class="route-group" id="route_7">
+    <path d="M 483.89 398.92 L 499.46 430.05 L 522.81 476.76 L 561.73 515.68 L 553.95 539.03 L 483.89 539.03 L 460.54 577.95 L 429.41 531.24 L 406.05 507.89 L 382.70 500.11 L 367.14 515.68 L 359.35 507.89 L 351.57 484.54 L 374.92 484.54 L 367.14 468.97 L 382.70 461.19 L 406.05 437.84 L 483.89 398.92" fill="none" stroke="#023E8A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="631.74" stroke-dashoffset="631.74" marker-mid="url(#arrow7)" opacity="0.88">
+      <animate attributeName="stroke-dashoffset" from="631.74" to="0" dur="1.05s" begin="3.05s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.2 1"/>
+    </path>
+    <g opacity="0">
+      <rect x="396.38" y="488.00" width="42" height="14" rx="3" fill="white" fill-opacity="0.85" stroke="#023E8A" stroke-width="0.8"/>
+      <text x="399.38" y="499.00" class="label-len" fill="#023E8A">81.2</text>
+      <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="4.10s" fill="freeze"/>
+    </g>
+  </g>
+</g>
+<g id="clients">
+  <g transform="translate(530.59,289.95)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.080s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(483.89,539.03)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.108s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(639.57,321.08)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.136s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(639.57,515.68)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.164s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(328.22,437.84)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.192s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(406.05,437.84)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.220s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(367.14,282.16)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.248s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(289.30,336.65)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.276s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(639.57,204.32)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.304s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(444.97,204.32)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.332s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(367.14,165.41)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.360s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(600.65,398.92)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.388s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(444.97,476.76)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#3BB273" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.416s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(328.22,593.51)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.444s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(444.97,632.43)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.472s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(289.30,515.68)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.500s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(250.38,437.84)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.528s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(367.14,360.00)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.556s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(328.22,204.32)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.584s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(561.73,165.41)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.612s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(561.73,515.68)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.640s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(561.73,593.51)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.668s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(639.57,632.43)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.696s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(717.41,398.92)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.724s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(717.41,515.68)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.752s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(561.73,437.84)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.780s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(483.89,360.00)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.808s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(530.59,383.35)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.836s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(709.62,344.43)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.864s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(522.81,204.32)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.892s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(452.76,266.59)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.920s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(483.89,134.27)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.948s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(624.00,266.59)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="0.976s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(717.41,243.24)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.004s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(701.84,165.41)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.032s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(227.03,204.32)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.060s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(367.14,515.68)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.088s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(250.38,632.43)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.116s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(678.49,577.95)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.144s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(522.81,476.76)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.172s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(538.38,616.86)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.200s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(398.27,577.95)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.228s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(390.49,648.00)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.256s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(297.08,562.38)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.284s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(258.16,375.57)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.312s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(227.03,297.73)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.340s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(273.73,235.46)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.368s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(312.65,266.59)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.396s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(258.16,142.05)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.424s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(577.30,305.51)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.452s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(592.86,219.89)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.480s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(421.62,336.65)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.508s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(499.46,430.05)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.536s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(655.14,445.62)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.564s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(701.84,492.32)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.592s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(624.00,577.95)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.620s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(460.54,577.95)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.648s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(491.68,468.97)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#3BB273" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.676s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(374.92,484.54)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.704s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(343.78,406.70)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.732s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(304.86,484.54)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.760s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(398.27,219.89)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.788s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(421.62,134.27)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.816s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(328.22,72.00)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.844s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(694.05,72.00)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.872s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(592.86,103.14)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.900s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(732.97,632.43)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.928s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(647.35,367.78)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.956s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(499.46,305.51)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="1.984s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(499.46,235.46)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.012s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(655.14,142.05)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.040s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(577.30,546.81)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.068s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(553.95,539.03)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.096s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(569.51,570.16)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.124s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(592.86,585.73)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#F4A261" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.152s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(592.86,344.43)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.180s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(624.00,336.65)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.208s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(686.27,266.59)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.236s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(655.14,297.73)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.264s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(647.35,383.35)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#6A4C93" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.292s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(639.57,251.03)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E63946" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.320s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(328.22,305.51)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.348s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(320.43,383.35)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.376s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(297.08,430.05)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.404s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(336.00,500.11)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.432s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(242.59,531.24)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.460s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(429.41,531.24)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.488s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(413.84,266.59)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#E76F51" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.516s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(413.84,398.92)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.544s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(452.76,149.84)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2176AE" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.572s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(328.22,523.46)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.600s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(382.70,500.11)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.628s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(351.57,484.54)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.656s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(413.84,461.19)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#3BB273" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.684s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(406.05,484.54)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#3BB273" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.712s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(382.70,461.19)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.740s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(406.05,507.89)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.768s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(359.35,507.89)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.796s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(367.14,468.97)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#023E8A" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.824s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g transform="translate(351.57,531.24)">
+    <circle class="client-dot" r="0" cx="0" cy="0" fill="#2A9D8F" stroke="white" stroke-width="1.5" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="7" dur="0.22s" begin="2.852s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+  </g>
+  <g id="depot" transform="translate(483.89,398.92)">
+    <circle r="19" fill="none" stroke="#1A1A2E" stroke-width="1.2" opacity="0.25">
+      <animate attributeName="r" values="15;25;15" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.35;0;0.35" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="0" cx="0" cy="0" fill="#1A1A2E" stroke="white" stroke-width="2" filter="url(#shadow)">
+      <animate attributeName="r" from="0" to="11" dur="0.3s" begin="0.05s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines="0.34 1.56 0.64 1"/>
+    </circle>
+    <text x="0" y="4" font-family="'SF Mono','Fira Mono',monospace" font-size="10" font-weight="700" text-anchor="middle" fill="#FFFFFF" opacity="0">
+D
+      <animate attributeName="opacity" from="0" to="1" dur="0.2s" begin="0.25s" fill="freeze"/>
+    </text>
+  </g>
+</g>
+<rect x="74" y="510" width="185" height="126" rx="6" fill="white" fill-opacity="0.88" stroke="#E2DDD7" stroke-width="1" opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.8s" fill="freeze"/>
+</rect>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="1.9s" fill="freeze"/>
+  <text x="80" y="524" class="stat-key">instance:</text>
+  <text x="170" y="524" class="stat-val">R107</text>
+  <text x="80" y="542" class="stat-key">algorithm:</text>
+  <text x="170" y="542" class="stat-val">TS</text>
+  <text x="80" y="560" class="stat-key">routes:</text>
+  <text x="170" y="560" class="stat-val">8</text>
+  <text x="80" y="578" class="stat-key">length:</text>
+  <text x="170" y="578" class="stat-val">860.7</text>
+  <text x="80" y="596" class="stat-key">capacity:</text>
+  <text x="170" y="596" class="stat-val">200</text>
+  <text x="80" y="614" class="stat-key">valid:</text>
+  <text x="170" y="614" class="stat-val">YES</text>
+</g>
+<rect x="716" y="76" width="175" height="186" rx="6" fill="white" fill-opacity="0.88" stroke="#E2DDD7" stroke-width="1" opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="2.0s" fill="freeze"/>
+</rect>
+<g opacity="0">
+  <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="2.1s" fill="freeze"/>
+  <text x="803" y="90" font-family="'SF Mono','Fira Mono',monospace" font-size="9" font-weight="600" fill="#8A8278" text-anchor="middle">ROUTES</text>
+  <rect x="724" y="96" width="16" height="8" rx="2" fill="#E63946"/>
+  <text x="746" y="104" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R1: 14 stops d=195/200</text>
+  <rect x="724" y="116" width="16" height="8" rx="2" fill="#2176AE"/>
+  <text x="746" y="124" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R2: 16 stops d=199/200</text>
+  <rect x="724" y="136" width="16" height="8" rx="2" fill="#2A9D8F"/>
+  <text x="746" y="144" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R3: 12 stops d=200/200</text>
+  <rect x="724" y="156" width="16" height="8" rx="2" fill="#E76F51"/>
+  <text x="746" y="164" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R4: 13 stops d=198/200</text>
+  <rect x="724" y="176" width="16" height="8" rx="2" fill="#6A4C93"/>
+  <text x="746" y="184" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R5: 13 stops d=198/200</text>
+  <rect x="724" y="196" width="16" height="8" rx="2" fill="#3BB273"/>
+  <text x="746" y="204" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R6: 4 stops d=88/200</text>
+  <rect x="724" y="216" width="16" height="8" rx="2" fill="#F4A261"/>
+  <text x="746" y="224" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R7: 12 stops d=192/200</text>
+  <rect x="724" y="236" width="16" height="8" rx="2" fill="#023E8A"/>
+  <text x="746" y="244" font-family="'SF Mono','Fira Mono',monospace" font-size="10" fill="#2D2A24">R8: 16 stops d=188/200</text>
+</g>
+</svg>
